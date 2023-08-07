@@ -141,6 +141,9 @@ void rebx_register_default_params(struct rebx_extras* rebx){
     rebx_register_param(rebx, "lt_p_haty", REBX_TYPE_DOUBLE);
     rebx_register_param(rebx, "lt_p_hatz", REBX_TYPE_DOUBLE);
     rebx_register_param(rebx, "lt_c", REBX_TYPE_DOUBLE);
+
+    rebx_register_param(rebx, "nfw_rho0", REBX_TYPE_DOUBLE);
+    rebx_register_param(rebx, "nfw_Rs", REBX_TYPE_DOUBLE);
 }
 
 void rebx_register_param(struct rebx_extras* const rebx, const char* name, enum rebx_param_type type){
@@ -340,6 +343,10 @@ struct rebx_force* rebx_load_force(struct rebx_extras* const rebx, const char* n
     else if (strcmp(name, "lense_thirring") == 0){
         force->update_accelerations = rebx_lense_thirring;
         force->force_type = REBX_FORCE_VEL;
+    }
+    else if (strcmp(name, "nfw_potential") == 0){
+        force->update_accelerations = rebx_nfw_potential;
+        force->force_type = REBX_FORCE_POS;
     }
     else{
         char str[300];
